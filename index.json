@@ -1,44 +1,85 @@
 {
     "version": "0",
-    "id": "b98984e7-96a8-fb91-17a9-984790e8061f",
+    "id": "ef5a889b-a48d-e450-9441-6611d0d0079f",
     "detail-type": "AWS API Call via CloudTrail",
-    "source": "aws.iam",
+    "source": "aws.kms",
     "account": "120833356027",
-    "time": "2024-04-23T13:27:19Z",
+    "time": "2024-04-23T14:44:47Z",
     "region": "us-east-1",
     "resources": [],
     "detail": {
-        "eventVersion": "1.09",
+        "eventVersion": "1.08",
         "userIdentity": {
             "type": "Root",
             "principalId": "120833356027",
             "arn": "arn:aws:iam::120833356027:root",
             "accountId": "120833356027",
-            "accessKeyId": "ASIARYIR2WD5Q47B5D4A",
+            "accessKeyId": "ASIARYIR2WD5U2ZKPRHZ",
             "sessionContext": {
+                "sessionIssuer": {},
+                "webIdFederationData": {},
                 "attributes": {
                     "creationDate": "2024-04-23T05:23:34Z",
                     "mfaAuthenticated": "false"
                 }
             }
         },
-        "eventTime": "2024-04-23T13:27:19Z",
-        "eventSource": "iam.amazonaws.com",
-        "eventName": "DeleteUser",
+        "eventTime": "2024-04-23T14:44:47Z",
+        "eventSource": "kms.amazonaws.com",
+        "eventName": "CreateKey",
         "awsRegion": "us-east-1",
         "sourceIPAddress": "106.222.200.145",
-        "userAgent": "AWS Internal",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
         "requestParameters": {
-            "userName": "user12"
+            "customerMasterKeySpec": "SYMMETRIC_DEFAULT",
+            "policy": "{\n    \"Id\": \"key-consolepolicy-3\",\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Sid\": \"Enable IAM User Permissions\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::120833356027:root\"\n            },\n            \"Action\": \"kms:*\",\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow access for Key Administrators\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": [\n                    \"arn:aws:iam::120833356027:user/aws-nuke\",\n                    \"arn:aws:iam::120833356027:user/cli\",\n                    \"arn:aws:iam::120833356027:user/cross_account\",\n                    \"arn:aws:iam::120833356027:user/helpers2\",\n                    \"arn:aws:iam::120833356027:user/ses-smtp-user.20240319-000756\",\n                    \"arn:aws:iam::120833356027:user/test1\",\n                    \"arn:aws:iam::120833356027:user/vishal\",\n                    \"arn:aws:iam::120833356027:role/admin_accesscloud\",\n                    \"arn:aws:iam::120833356027:role/service-role/AWSCodePipelineServiceRole-ap-south-1-CodePipelinedawjoka_12312\",\n                    \"arn:aws:iam::120833356027:role/service-role/AWSCodePipelineServiceRole-ap-south-1-vishal\"\n                ]\n            },\n            \"Action\": [\n                \"kms:Create*\",\n                \"kms:Describe*\",\n                \"kms:Enable*\",\n                \"kms:List*\",\n                \"kms:Put*\",\n                \"kms:Update*\",\n                \"kms:Revoke*\",\n                \"kms:Disable*\",\n                \"kms:Get*\",\n                \"kms:Delete*\",\n                \"kms:TagResource\",\n                \"kms:UntagResource\",\n                \"kms:ScheduleKeyDeletion\",\n                \"kms:CancelKeyDeletion\",\n                \"kms:RotateKeyOnDemand\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": [\n                    \"arn:aws:iam::120833356027:user/aws-nuke\",\n                    \"arn:aws:iam::120833356027:user/cli\",\n                    \"arn:aws:iam::120833356027:user/cross_account\",\n                    \"arn:aws:iam::120833356027:user/helpers2\",\n                    \"arn:aws:iam::120833356027:user/ses-smtp-user.20240319-000756\",\n                    \"arn:aws:iam::120833356027:user/test1\",\n                    \"arn:aws:iam::120833356027:user/vishal\",\n                    \"arn:aws:iam::120833356027:role/admin_accesscloud\",\n                    \"arn:aws:iam::120833356027:role/service-role/AWSCodePipelineServiceRole-ap-south-1-CodePipelinedawjoka_12312\",\n                    \"arn:aws:iam::120833356027:role/service-role/AWSCodePipelineServiceRole-ap-south-1-vishal\"\n                ]\n            },\n            \"Action\": [\n                \"kms:Encrypt\",\n                \"kms:Decrypt\",\n                \"kms:ReEncrypt*\",\n                \"kms:GenerateDataKey*\",\n                \"kms:DescribeKey\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow attachment of persistent resources\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": [\n                    \"arn:aws:iam::120833356027:user/aws-nuke\",\n                    \"arn:aws:iam::120833356027:user/cli\",\n                    \"arn:aws:iam::120833356027:user/cross_account\",\n                    \"arn:aws:iam::120833356027:user/helpers2\",\n                    \"arn:aws:iam::120833356027:user/ses-smtp-user.20240319-000756\",\n                    \"arn:aws:iam::120833356027:user/test1\",\n                    \"arn:aws:iam::120833356027:user/vishal\",\n                    \"arn:aws:iam::120833356027:role/admin_accesscloud\",\n                    \"arn:aws:iam::120833356027:role/service-role/AWSCodePipelineServiceRole-ap-south-1-CodePipelinedawjoka_12312\",\n                    \"arn:aws:iam::120833356027:role/service-role/AWSCodePipelineServiceRole-ap-south-1-vishal\"\n                ]\n            },\n            \"Action\": [\n                \"kms:CreateGrant\",\n                \"kms:ListGrants\",\n                \"kms:RevokeGrant\"\n            ],\n            \"Resource\": \"*\",\n            \"Condition\": {\n                \"Bool\": {\n                    \"kms:GrantIsForAWSResource\": \"true\"\n                }\n            }\n        }\n    ]\n}",
+            "origin": "AWS_KMS",
+            "keySpec": "SYMMETRIC_DEFAULT",
+            "bypassPolicyLockoutSafetyCheck": false,
+            "multiRegion": false,
+            "tags": [],
+            "keyUsage": "ENCRYPT_DECRYPT",
+            "description": "test2"
         },
-        "responseElements": None,
-        "requestID": "d1c43af0-ce9a-4b40-828b-537fcd7b9922",
-        "eventID": "aec199ce-3173-4eee-83f5-7f292e35adb5",
-        "readOnly": False,
+        "responseElements": {
+            "keyMetadata": {
+                "aWSAccountId": "120833356027",
+                "keyId": "1191e54d-9cd9-4aa8-8979-4a4a499b6f6b",
+                "arn": "arn:aws:kms:us-east-1:120833356027:key/1191e54d-9cd9-4aa8-8979-4a4a499b6f6b",
+                "creationDate": "Apr 23, 2024, 2:44:47 PM",
+                "enabled": true,
+                "description": "test2",
+                "keyUsage": "ENCRYPT_DECRYPT",
+                "keyState": "Enabled",
+                "origin": "AWS_KMS",
+                "keyManager": "CUSTOMER",
+                "customerMasterKeySpec": "SYMMETRIC_DEFAULT",
+                "keySpec": "SYMMETRIC_DEFAULT",
+                "encryptionAlgorithms": [
+                    "SYMMETRIC_DEFAULT"
+                ],
+                "multiRegion": false
+            }
+        },
+        "requestID": "24b1c0ea-d182-476d-8df9-87f60bd3f107",
+        "eventID": "bb28db7d-4aa0-4664-82ae-0489ecf2cfdb",
+        "readOnly": false,
+        "resources": [
+            {
+                "accountId": "120833356027",
+                "type": "AWS::KMS::Key",
+                "ARN": "arn:aws:kms:us-east-1:120833356027:key/1191e54d-9cd9-4aa8-8979-4a4a499b6f6b"
+            }
+        ],
         "eventType": "AwsApiCall",
-        "managementEvent": True,
+        "managementEvent": true,
         "recipientAccountId": "120833356027",
         "eventCategory": "Management",
+        "tlsDetails": {
+            "tlsVersion": "TLSv1.3",
+            "cipherSuite": "TLS_AES_256_GCM_SHA384",
+            "clientProvidedHostHeader": "kms.us-east-1.amazonaws.com"
+        },
         "sessionCredentialFromConsole": "true"
     }
 }

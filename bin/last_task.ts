@@ -28,6 +28,7 @@ export class EventBridgeLambdaStack extends cdk.Stack {
 
     const myRule = new events.Rule(this, 'MyRule', {
       eventPattern: {
+        "source": ["aws.secretsmanager"],
         "detailType": ["AWS Service Event Via CloudTrail"],
         "detail": {
           "eventSource": ["secretsmanager.amazonaws.com"],
@@ -93,16 +94,11 @@ export class EventBridgeLambdaStack extends cdk.Stack {
 
   const rule5 = new events.Rule(this, 'Rule5', {
     eventPattern: {
-      "detailType": ["AWS Service Event Via CloudTrail"],
-      "detail": {
-        "eventSource": ["kms.amazonaws.com"],
-        "eventName": [
-          "DisableKey",
-          "EnableKey",
-          "UpdateKeyDescription",
-          "ScheduleKeyDeletion",
-          "DeleteKey"
-        ]
+        "source": ["aws.kms"],
+        "detailType": ["AWS API Call via CloudTrail"],
+        "detail": {
+          "eventSource": ["kms.amazonaws.com"],
+          "eventName": ["CreateKey", "ScheduleKeyDeletion", "DisableKey", "EnableKey", "UpdateKeyDescription"]
       }
     },
   });
@@ -114,6 +110,6 @@ export class EventBridgeLambdaStack extends cdk.Stack {
 }
 
 const app = new cdk.App();
-new EventBridgeLambdaStack(app, 'EventBridgeLambdaStack126');
+new EventBridgeLambdaStack(app, 'EventBridgeLambdaStack128');
 app.synth();
 // dd-mm-yyyy hh:ss
