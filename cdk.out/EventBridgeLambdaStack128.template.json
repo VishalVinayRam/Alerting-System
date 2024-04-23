@@ -67,6 +67,17 @@
     "aws:cdk:path": "EventBridgeLambdaStack128/MyLambdaRole/Resource"
    }
   },
+  "EmailIdentity7187767D": {
+   "Type": "AWS::SES::EmailIdentity",
+   "Properties": {
+    "EmailIdentity": {
+     "Fn::Sub": "brocoder21@gmail.com"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack128/EmailIdentity/Resource"
+   }
+  },
   "MyLambdaCCE802FB": {
    "Type": "AWS::Lambda::Function",
    "Properties": {
@@ -99,6 +110,9 @@
    "Type": "AWS::Events::Rule",
    "Properties": {
     "EventPattern": {
+     "source": [
+      "aws.secretsmanager"
+     ],
      "detail-type": [
       "AWS Service Event Via CloudTrail"
      ],
@@ -398,19 +412,22 @@
    "Type": "AWS::Events::Rule",
    "Properties": {
     "EventPattern": {
+     "source": [
+      "aws.kms"
+     ],
      "detail-type": [
-      "AWS Service Event Via CloudTrail"
+      "AWS API Call via CloudTrail"
      ],
      "detail": {
       "eventSource": [
        "kms.amazonaws.com"
       ],
       "eventName": [
+       "CreateKey",
+       "ScheduleKeyDeletion",
        "DisableKey",
        "EnableKey",
-       "UpdateKeyDescription",
-       "ScheduleKeyDeletion",
-       "DeleteKey"
+       "UpdateKeyDescription"
       ]
      }
     },
@@ -456,7 +473,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02NWw6CQAxF1+L/UEVWIES/DSyA1KGaCnQSOiMxE/ZuBh/x65zem9zuIS8K2G1w1sx2fTbwBWLj0fYGZ20jPUi8QjwmlkFNdZWf12GgFCQuhnGEWLtPlHh2A9tnOt+2mAHHS4cQT0GsZyep+/czTSOrspPFaNGiKnmFQ4LRAspge/IlKi2mJnVhsmTWtvF4Y7mtr79FdZXKScd+nRPXEdx1+9jvIM8h39yVOZuCeB4J6jdfBz7VOQ8BAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOUW7CMBBEz8K/sxBygiZqpf6hcAC02Ata4qylrA2qLN+9cihV+/VmZ1aj2UPbdbDb4EMb66bG8xnyMaKdDD70lOlOEhXye2Wf1AwX+dVj8lSNymIYZ8hj+LEqD8Gz/arnUxWjVLtmZP/pSCLHNf1nFONxPjuE/JHERg5SX/7qAy0zq3KQYrQ7oSpFhbcKox30yU4Ue1QqZiQNabFk1vQY8cpyXfe9guEiQxDHca2T4Ahuur3vd9C20G5uytwsSSLPBOOT34dcJpo0AQAA"
    },
    "Metadata": {
     "aws:cdk:path": "EventBridgeLambdaStack128/CDKMetadata/Default"

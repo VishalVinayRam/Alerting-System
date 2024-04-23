@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6c137ef0196940b3077a44a223a1f7b06397a88165c49ea5a26694f21d84d87a.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c53ae798047f0554002d9757213a5e6cce59a159b9f2c6583b86ac557af191b8.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -44,6 +44,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "MyLambdaRole6064C0FA"
+          }
+        ],
+        "/EventBridgeLambdaStack128/EmailIdentity/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailIdentity7187767D"
           }
         ],
         "/EventBridgeLambdaStack128/MyLambda/Resource": [

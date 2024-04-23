@@ -4,6 +4,8 @@ import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 import { Construct } from 'constructs';
 import * as iam from 'aws-cdk-lib/aws-iam'
+import * as ses from 'aws-cdk-lib/aws-ses';
+
 
 export class EventBridgeLambdaStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -18,6 +20,11 @@ export class EventBridgeLambdaStack extends cdk.Stack {
         iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole'),
       ],
     });
+    const emailToBeVerified = cdk.Fn.sub("brocoder21@gmail.com")  
+    // Create SES identity
+    const emailIdentity = new ses.EmailIdentity(this, 'EmailIdentity', {
+      identity: ses.Identity.email(emailToBeVerified)
+    });
 
     const myLambda = new lambda.Function(this, 'MyLambda', {
       runtime: lambda.Runtime.PYTHON_3_11,
@@ -25,7 +32,7 @@ export class EventBridgeLambdaStack extends cdk.Stack {
       code: lambda.Code.fromAsset('./bin/index.zip'),
       role:role
     });
-
+  
     const myRule = new events.Rule(this, 'MyRule', {
       eventPattern: {
         "source": ["aws.secretsmanager"],

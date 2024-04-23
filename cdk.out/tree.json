@@ -113,6 +113,32 @@
               "version": "2.133.0"
             }
           },
+          "EmailIdentity": {
+            "id": "EmailIdentity",
+            "path": "EventBridgeLambdaStack128/EmailIdentity",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "EventBridgeLambdaStack128/EmailIdentity/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SES::EmailIdentity",
+                  "aws:cdk:cloudformation:props": {
+                    "emailIdentity": {
+                      "Fn::Sub": "brocoder21@gmail.com"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ses.CfnEmailIdentity",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ses.EmailIdentity",
+              "version": "2.133.0"
+            }
+          },
           "MyLambda": {
             "id": "MyLambda",
             "path": "EventBridgeLambdaStack128/MyLambda",
@@ -187,6 +213,9 @@
                   "aws:cdk:cloudformation:type": "AWS::Events::Rule",
                   "aws:cdk:cloudformation:props": {
                     "eventPattern": {
+                      "source": [
+                        "aws.secretsmanager"
+                      ],
                       "detail-type": [
                         "AWS Service Event Via CloudTrail"
                       ],
@@ -604,19 +633,22 @@
                   "aws:cdk:cloudformation:type": "AWS::Events::Rule",
                   "aws:cdk:cloudformation:props": {
                     "eventPattern": {
+                      "source": [
+                        "aws.kms"
+                      ],
                       "detail-type": [
-                        "AWS Service Event Via CloudTrail"
+                        "AWS API Call via CloudTrail"
                       ],
                       "detail": {
                         "eventSource": [
                           "kms.amazonaws.com"
                         ],
                         "eventName": [
+                          "CreateKey",
+                          "ScheduleKeyDeletion",
                           "DisableKey",
                           "EnableKey",
-                          "UpdateKeyDescription",
-                          "ScheduleKeyDeletion",
-                          "DeleteKey"
+                          "UpdateKeyDescription"
                         ]
                       }
                     },
