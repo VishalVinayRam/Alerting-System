@@ -1,16 +1,32 @@
 import boto3
 import json
+# from datetime import datetime
 
 
-def format_event_table(event):
-    # Extract required attributes from the event
-    # principalId = event.get('userIdentity', {}).get('principalId', '')
+def lambda_handler(events,context):
+    event = events['detail']
+    ses = boto3.client('ses', region_name='ap-south-1')
+
+    # Email configurations
+    sender_email = 'vishalvinayram5432@gmail.com'
+    recipient_email = 'vishalvinayram811@gmail.com'
     user = event.get('userIdentity', {}).get('type', '')
-    accountId = event.get('userIdentity', {}).get('accountId', '')
-    eventTime = event.get('eventTime', '')
-    eventSource = event.get('eventSource', '')
-    eventName = event.get('eventName', '')
-    sourceIPAddress = event.get('sourceIPAddress', '')
+
+    # Create email body with HTML content
+        # Extract required attributes from the event
+    userIdentity = event['userIdentity']
+    user = userIdentity['type']
+    accountId = userIdentity['accountId']
+    eventTime = event.get('eventTime')
+    eventSource = event['eventSource']
+    eventName = event['eventName']
+    sourceIPAddress = event['sourceIPAddress']
+    # datetime_obj = datetime.strptime(eventTime, '%Y-%m-%dT%H:%M:%SZ')
+
+# Convert datetime object to the desired format 'dd-mm-yyyy hh:mm:ss'
+    # formatted_timestamp = datetime_obj.strftime('%d-%m-%Y %H:%M:%S')
+
+    subject = f'Changes by {user}'
     table = f"""
     <table border="1" cellspacing="0" cellpadding="5">
         <tr>
@@ -39,32 +55,13 @@ def format_event_table(event):
         </tr>
     </table>
     """
-
-
-    return table
-
-def lambda_handler(event,context):
-
-    # Create an SES client
-    ses = boto3.client('ses', region_name='ap-south-1')
-
-    # Email configurations
-    sender_email = 'vishalvinayram5432@gmail.com'
-    recipient_email = 'vishalvinayram811@gmail.com'
-    user = event.get('userIdentity', {}).get('type', '')
-    subject = f'Latest event from  {user}'
-
-    # Create email body with HTML content
-    html_body = format_event_table(event)
-
-    # Send email with HTML body
     ses.send_email(
         Destination={'ToAddresses': [recipient_email]},
         Message={
             'Body': {
                 'Html': {
                     'Charset': 'UTF-8',
-                    'Data': html_body
+                    'Data': table
                 }
             },
             'Subject': {
@@ -74,6 +71,3 @@ def lambda_handler(event,context):
         },
         Source=sender_email
     )
-
-    print(event)
-

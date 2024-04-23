@@ -1,0 +1,44 @@
+{
+    "version": "0",
+    "id": "b98984e7-96a8-fb91-17a9-984790e8061f",
+    "detail-type": "AWS API Call via CloudTrail",
+    "source": "aws.iam",
+    "account": "120833356027",
+    "time": "2024-04-23T13:27:19Z",
+    "region": "us-east-1",
+    "resources": [],
+    "detail": {
+        "eventVersion": "1.09",
+        "userIdentity": {
+            "type": "Root",
+            "principalId": "120833356027",
+            "arn": "arn:aws:iam::120833356027:root",
+            "accountId": "120833356027",
+            "accessKeyId": "ASIARYIR2WD5Q47B5D4A",
+            "sessionContext": {
+                "attributes": {
+                    "creationDate": "2024-04-23T05:23:34Z",
+                    "mfaAuthenticated": "false"
+                }
+            }
+        },
+        "eventTime": "2024-04-23T13:27:19Z",
+        "eventSource": "iam.amazonaws.com",
+        "eventName": "DeleteUser",
+        "awsRegion": "us-east-1",
+        "sourceIPAddress": "106.222.200.145",
+        "userAgent": "AWS Internal",
+        "requestParameters": {
+            "userName": "user12"
+        },
+        "responseElements": None,
+        "requestID": "d1c43af0-ce9a-4b40-828b-537fcd7b9922",
+        "eventID": "aec199ce-3173-4eee-83f5-7f292e35adb5",
+        "readOnly": False,
+        "eventType": "AwsApiCall",
+        "managementEvent": True,
+        "recipientAccountId": "120833356027",
+        "eventCategory": "Management",
+        "sessionCredentialFromConsole": "true"
+    }
+}

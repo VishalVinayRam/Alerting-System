@@ -74,7 +74,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "b6f9ede98287679b07e562954d5ef5795c469f35eec617b01c40031e2f178408.zip"
+     "S3Key": "a08f74888a52b973dcf4aab44e3ee5ed7f892825e4cc512bbe1a00fc3237ca1b.zip"
     },
     "Handler": "index.lambda_handler",
     "Role": {
@@ -90,7 +90,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "EventBridgeLambdaStack126/MyLambda/Resource",
-    "aws:asset:path": "asset.b6f9ede98287679b07e562954d5ef5795c469f35eec617b01c40031e2f178408.zip",
+    "aws:asset:path": "asset.a08f74888a52b973dcf4aab44e3ee5ed7f892825e4cc512bbe1a00fc3237ca1b.zip",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
