@@ -1,10 +1,10 @@
 import boto3
+import json
 
 
 def format_event_table(event):
     # Extract required attributes from the event
-    principalId = event.get('userIdentity', {}).get('principalId', '')
-    arn = event.get('userIdentity', {}).get('arn', '')
+    # principalId = event.get('userIdentity', {}).get('principalId', '')
     user = event.get('userIdentity', {}).get('type', '')
     accountId = event.get('userIdentity', {}).get('accountId', '')
     eventTime = event.get('eventTime', '')
@@ -77,4 +77,3 @@ def lambda_handler(event,context):
 
     print(event)
 
-# Account Name

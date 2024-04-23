@@ -3,13 +3,13 @@
   "MyEventBus251E60F8": {
    "Type": "AWS::Events::EventBus",
    "Properties": {
-    "Name": "EventBridgeLambdaStack126MyEventBus3E34AA91"
+    "Name": "EventBridgeLambdaStack123MyEventBusCF47993A"
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/MyEventBus/Resource"
+    "aws:cdk:path": "EventBridgeLambdaStack123/MyEventBus/Resource"
    }
   },
-  "MyLambdaRole6064C0FA": {
+  "MyLambdaServiceRole4539ECB6": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -33,38 +33,14 @@
         {
          "Ref": "AWS::Partition"
         },
-        ":iam::aws:policy/AdministratorAccess"
-       ]
-      ]
-     },
-     {
-      "Fn::Join": [
-       "",
-       [
-        "arn:",
-        {
-         "Ref": "AWS::Partition"
-        },
         ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-       ]
-      ]
-     },
-     {
-      "Fn::Join": [
-       "",
-       [
-        "arn:",
-        {
-         "Ref": "AWS::Partition"
-        },
-        ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
        ]
       ]
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/MyLambdaRole/Resource"
+    "aws:cdk:path": "EventBridgeLambdaStack123/MyLambda/ServiceRole/Resource"
    }
   },
   "MyLambdaCCE802FB": {
@@ -74,23 +50,23 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
      },
-     "S3Key": "b6f9ede98287679b07e562954d5ef5795c469f35eec617b01c40031e2f178408.zip"
+     "S3Key": "392fe9ac4077808c0a89df149cc80c68d531f38fcd66c50fe17b9f423f2439b5.zip"
     },
-    "Handler": "index.lambda_handler",
+    "Handler": "index.handler",
     "Role": {
      "Fn::GetAtt": [
-      "MyLambdaRole6064C0FA",
+      "MyLambdaServiceRole4539ECB6",
       "Arn"
      ]
     },
     "Runtime": "python3.11"
    },
    "DependsOn": [
-    "MyLambdaRole6064C0FA"
+    "MyLambdaServiceRole4539ECB6"
    ],
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/MyLambda/Resource",
-    "aws:asset:path": "asset.b6f9ede98287679b07e562954d5ef5795c469f35eec617b01c40031e2f178408.zip",
+    "aws:cdk:path": "EventBridgeLambdaStack123/MyLambda/Resource",
+    "aws:asset:path": "asset.392fe9ac4077808c0a89df149cc80c68d531f38fcd66c50fe17b9f423f2439b5.zip",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -140,10 +116,10 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/MyRule/Resource"
+    "aws:cdk:path": "EventBridgeLambdaStack123/MyRule/Resource"
    }
   },
-  "MyRuleAllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260069441C4": {
+  "MyRuleAllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D21901CEB8030": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -162,7 +138,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/MyRule/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+    "aws:cdk:path": "EventBridgeLambdaStack123/MyRule/AllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D2190"
    }
   },
   "MyRuleEventsRoleF186CAE5": {
@@ -182,7 +158,7 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/MyRule/EventsRole/Resource"
+    "aws:cdk:path": "EventBridgeLambdaStack123/MyRule/EventsRole/Resource"
    }
   },
   "MyRuleEventsRoleDefaultPolicy5D01F508": {
@@ -211,7 +187,7 @@
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/MyRule/EventsRole/DefaultPolicy/Resource"
+    "aws:cdk:path": "EventBridgeLambdaStack123/MyRule/EventsRole/DefaultPolicy/Resource"
    }
   },
   "Rule270732244": {
@@ -247,14 +223,29 @@
        ]
       },
       "Id": "Target0"
+     },
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyEventBus251E60F8",
+        "Arn"
+       ]
+      },
+      "Id": "Target1",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "Rule2EventsRoleAC64D76C",
+        "Arn"
+       ]
+      }
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/Rule2/Resource"
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule2/Resource"
    }
   },
-  "Rule2AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD2607F8745B0": {
+  "Rule2AllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D2190F1D25CBC": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -273,7 +264,56 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/Rule2/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule2/AllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D2190"
+   }
+  },
+  "Rule2EventsRoleAC64D76C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule2/EventsRole/Resource"
+   }
+  },
+  "Rule2EventsRoleDefaultPolicy988F86A6": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MyEventBus251E60F8",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Rule2EventsRoleDefaultPolicy988F86A6",
+    "Roles": [
+     {
+      "Ref": "Rule2EventsRoleAC64D76C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule2/EventsRole/DefaultPolicy/Resource"
    }
   },
   "Rule37CF0D9CF": {
@@ -303,14 +343,29 @@
        ]
       },
       "Id": "Target0"
+     },
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyEventBus251E60F8",
+        "Arn"
+       ]
+      },
+      "Id": "Target1",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "Rule3EventsRole1F265F5C",
+        "Arn"
+       ]
+      }
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/Rule3/Resource"
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule3/Resource"
    }
   },
-  "Rule3AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD2605DFD1949": {
+  "Rule3AllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D219027A0C1AC": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -329,7 +384,56 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/Rule3/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule3/AllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D2190"
+   }
+  },
+  "Rule3EventsRole1F265F5C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule3/EventsRole/Resource"
+   }
+  },
+  "Rule3EventsRoleDefaultPolicy69ED7C79": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MyEventBus251E60F8",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Rule3EventsRoleDefaultPolicy69ED7C79",
+    "Roles": [
+     {
+      "Ref": "Rule3EventsRole1F265F5C"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule3/EventsRole/DefaultPolicy/Resource"
    }
   },
   "Rule448524F36": {
@@ -365,14 +469,29 @@
        ]
       },
       "Id": "Target0"
+     },
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyEventBus251E60F8",
+        "Arn"
+       ]
+      },
+      "Id": "Target1",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "Rule4EventsRoleE6762C83",
+        "Arn"
+       ]
+      }
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/Rule4/Resource"
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule4/Resource"
    }
   },
-  "Rule4AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260FB926116": {
+  "Rule4AllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D2190A676D1B6": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -391,7 +510,56 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/Rule4/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule4/AllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D2190"
+   }
+  },
+  "Rule4EventsRoleE6762C83": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule4/EventsRole/Resource"
+   }
+  },
+  "Rule4EventsRoleDefaultPolicy518D2238": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MyEventBus251E60F8",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Rule4EventsRoleDefaultPolicy518D2238",
+    "Roles": [
+     {
+      "Ref": "Rule4EventsRoleE6762C83"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule4/EventsRole/DefaultPolicy/Resource"
    }
   },
   "Rule560B83267": {
@@ -424,14 +592,29 @@
        ]
       },
       "Id": "Target0"
+     },
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyEventBus251E60F8",
+        "Arn"
+       ]
+      },
+      "Id": "Target1",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "Rule5EventsRole6DAAFCE3",
+        "Arn"
+       ]
+      }
      }
     ]
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/Rule5/Resource"
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule5/Resource"
    }
   },
-  "Rule5AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD2603BFAA252": {
+  "Rule5AllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D2190727EA833": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -450,16 +633,65 @@
     }
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/Rule5/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule5/AllowEventRuleEventBridgeLambdaStack123MyLambdaAF2D2190"
+   }
+  },
+  "Rule5EventsRole6DAAFCE3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule5/EventsRole/Resource"
+   }
+  },
+  "Rule5EventsRoleDefaultPolicy15CDA129": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MyEventBus251E60F8",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Rule5EventsRoleDefaultPolicy15CDA129",
+    "Roles": [
+     {
+      "Ref": "Rule5EventsRole6DAAFCE3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack123/Rule5/EventsRole/DefaultPolicy/Resource"
    }
   },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02NWw6CQAxF1+L/UEVWIES/DSyA1KGaCnQSOiMxE/ZuBh/x65zem9zuIS8K2G1w1sx2fTbwBWLj0fYGZ20jPUi8QjwmlkFNdZWf12GgFCQuhnGEWLtPlHh2A9tnOt+2mAHHS4cQT0GsZyep+/czTSOrspPFaNGiKnmFQ4LRAspge/IlKi2mJnVhsmTWtvF4Y7mtr79FdZXKScd+nRPXEdx1+9jvIM8h39yVOZuCeB4J6jdfBz7VOQ8BAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02N3Q6CMAxGn8X7UUWeQIheG3gAU0c1FegSumnMwrubzZ94dU76tf22UFYVbFb40ML2QzHyGWLn0Q4GH3qKdCfxCnGfWAc1zUV+3oaR0iBxMSNO5x4hHoJYz05S8u9HmidWZSeLYZwgtu5znnh0I9tn3su2GK1OqEpeYZdgtII62IF8jUqLaUldmC2ZnHYeryzX/O4bNBdpnPTsc6W4nuCm6/t2A2UJ5eqmzMUcxPNE0L75Ak9w4qcPAQAA"
    },
    "Metadata": {
-    "aws:cdk:path": "EventBridgeLambdaStack126/CDKMetadata/Default"
+    "aws:cdk:path": "EventBridgeLambdaStack123/CDKMetadata/Default"
    },
    "Condition": "CDKMetadataAvailable"
   }

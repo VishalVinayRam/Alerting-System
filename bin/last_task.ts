@@ -8,8 +8,6 @@ import * as iam from 'aws-cdk-lib/aws-iam'
 export class EventBridgeLambdaStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
-
-    // Lambda function
     const myEventBus = new events.EventBus(this, 'MyEventBus');
     const role = new iam.Role(this, 'MyLambdaRole', {
       assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
@@ -18,7 +16,6 @@ export class EventBridgeLambdaStack extends cdk.Stack {
 
         iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaBasicExecutionRole'),
         iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AWSLambdaVPCAccessExecutionRole'),
-        // Add more managed policies as needed
       ],
     });
 
@@ -29,7 +26,6 @@ export class EventBridgeLambdaStack extends cdk.Stack {
       role:role
     });
 
-    // EventBridge rule with custom event pattern
     const myRule = new events.Rule(this, 'MyRule', {
       eventPattern: {
         "detailType": ["AWS Service Event Via CloudTrail"],
