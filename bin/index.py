@@ -51,7 +51,8 @@ def lambda_handler(event,context):
     # Email configurations
     sender_email = 'vishalvinayram5432@gmail.com'
     recipient_email = 'vishalvinayram811@gmail.com'
-    subject = 'Report'
+    user = event.get('userIdentity', {}).get('type', '')
+    subject = f'Latest event from  {user}'
 
     # Create email body with HTML content
     html_body = format_event_table(event)
@@ -76,3 +77,4 @@ def lambda_handler(event,context):
 
     print(event)
 
+# Account Name

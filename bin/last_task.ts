@@ -118,5 +118,6 @@ export class EventBridgeLambdaStack extends cdk.Stack {
 }
 
 const app = new cdk.App();
-new EventBridgeLambdaStack(app, 'EventBridgeLambdaStack125');
+new EventBridgeLambdaStack(app, 'EventBridgeLambdaStack126');
 app.synth();
+// dd-mm-yyyy hh:ss

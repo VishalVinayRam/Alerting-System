@@ -1,0 +1,711 @@
+{
+ "Resources": {
+  "MyEventBus251E60F8": {
+   "Type": "AWS::Events::EventBus",
+   "Properties": {
+    "Name": "EventBridgeLambdaStack126MyEventBus3E34AA91"
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/MyEventBus/Resource"
+   }
+  },
+  "MyLambdaRole6064C0FA": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AdministratorAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/MyLambdaRole/Resource"
+   }
+  },
+  "MyLambdaCCE802FB": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "9ffcd0dbe77aea1ab5c6654e3b6ee65eddf622077135fca099891a5f9dc8faaa.zip"
+    },
+    "Handler": "index.lambda_handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "MyLambdaRole6064C0FA",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11"
+   },
+   "DependsOn": [
+    "MyLambdaRole6064C0FA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/MyLambda/Resource",
+    "aws:asset:path": "asset.9ffcd0dbe77aea1ab5c6654e3b6ee65eddf622077135fca099891a5f9dc8faaa.zip",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "MyRuleA44AB831": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "detail-type": [
+      "AWS Service Event Via CloudTrail"
+     ],
+     "detail": {
+      "eventSource": [
+       "secretsmanager.amazonaws.com"
+      ],
+      "eventName": [
+       "DeleteSecret"
+      ]
+     }
+    },
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyLambdaCCE802FB",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     },
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyEventBus251E60F8",
+        "Arn"
+       ]
+      },
+      "Id": "Target1",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "MyRuleEventsRoleF186CAE5",
+        "Arn"
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/MyRule/Resource"
+   }
+  },
+  "MyRuleAllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260069441C4": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "MyLambdaCCE802FB",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "MyRuleA44AB831",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/MyRule/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+   }
+  },
+  "MyRuleEventsRoleF186CAE5": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/MyRule/EventsRole/Resource"
+   }
+  },
+  "MyRuleEventsRoleDefaultPolicy5D01F508": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "events:PutEvents",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MyEventBus251E60F8",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "MyRuleEventsRoleDefaultPolicy5D01F508",
+    "Roles": [
+     {
+      "Ref": "MyRuleEventsRoleF186CAE5"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/MyRule/EventsRole/DefaultPolicy/Resource"
+   }
+  },
+  "Rule270732244": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "detail-type": [
+      "AWS API Call via CloudTrail"
+     ],
+     "detail": {
+      "eventSource": [
+       "iam.amazonaws.com"
+      ],
+      "eventName": [
+       "DeleteUser",
+       "CreateUser",
+       "DeleteRole",
+       "CreateRole",
+       "DeleteRolePolicy",
+       "PutRolePolicy",
+       "DeletePolicy",
+       "CreatePolicy"
+      ]
+     }
+    },
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyLambdaCCE802FB",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/Rule2/Resource"
+   }
+  },
+  "Rule2AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD2607F8745B0": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "MyLambdaCCE802FB",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "Rule270732244",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/Rule2/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+   }
+  },
+  "Rule37CF0D9CF": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "detail-type": [
+      "AWS API Call via CloudTrail"
+     ],
+     "detail": {
+      "eventSource": [
+       "rds.amazonaws.com"
+      ],
+      "eventName": [
+       "StopDBInstance",
+       "DeleteDBInstance"
+      ]
+     }
+    },
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyLambdaCCE802FB",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/Rule3/Resource"
+   }
+  },
+  "Rule3AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD2605DFD1949": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "MyLambdaCCE802FB",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "Rule37CF0D9CF",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/Rule3/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+   }
+  },
+  "Rule448524F36": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "detail-type": [
+      "AWS API Call via CloudTrail"
+     ],
+     "detail": {
+      "eventSource": [
+       "s3.amazonaws.com"
+      ],
+      "eventName": [
+       "DeleteBucket"
+      ],
+      "requestParameters": {
+       "bucketName": [
+        {
+         "prefix": "audit"
+        }
+       ]
+      }
+     }
+    },
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyLambdaCCE802FB",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/Rule4/Resource"
+   }
+  },
+  "Rule4AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260FB926116": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "MyLambdaCCE802FB",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "Rule448524F36",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/Rule4/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+   }
+  },
+  "Rule560B83267": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "detail-type": [
+      "AWS Service Event Via CloudTrail"
+     ],
+     "detail": {
+      "eventSource": [
+       "kms.amazonaws.com"
+      ],
+      "eventName": [
+       "DisableKey",
+       "EnableKey",
+       "UpdateKeyDescription",
+       "ScheduleKeyDeletion",
+       "DeleteKey"
+      ]
+     }
+    },
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::GetAtt": [
+        "MyLambdaCCE802FB",
+        "Arn"
+       ]
+      },
+      "Id": "Target0"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/Rule5/Resource"
+   }
+  },
+  "Rule5AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD2603BFAA252": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "MyLambdaCCE802FB",
+      "Arn"
+     ]
+    },
+    "Principal": "events.amazonaws.com",
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "Rule560B83267",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/Rule5/AllowEventRuleEventBridgeLambdaStack126MyLambdaE5AAD260"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02NWw6CQAxF1+L/UEVWIES/DSyA1KGaCnQSOiMxE/ZuBh/x65zem9zuIS8K2G1w1sx2fTbwBWLj0fYGZ20jPUi8QjwmlkFNdZWf12GgFCQuhnGEWLtPlHh2A9tnOt+2mAHHS4cQT0GsZyep+/czTSOrspPFaNGiKnmFQ4LRAspge/IlKi2mJnVhsmTWtvF4Y7mtr79FdZXKScd+nRPXEdx1+9jvIM8h39yVOZuCeB4J6jdfBz7VOQ8BAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "EventBridgeLambdaStack126/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
