@@ -4,21 +4,21 @@
     "id": "App",
     "path": "",
     "children": {
-      "EventBridgeLambdaStack128": {
-        "id": "EventBridgeLambdaStack128",
-        "path": "EventBridgeLambdaStack128",
+      "S3LambdaStack": {
+        "id": "S3LambdaStack",
+        "path": "S3LambdaStack",
         "children": {
           "MyEventBus": {
             "id": "MyEventBus",
-            "path": "EventBridgeLambdaStack128/MyEventBus",
+            "path": "S3LambdaStack/MyEventBus",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "EventBridgeLambdaStack128/MyEventBus/Resource",
+                "path": "S3LambdaStack/MyEventBus/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Events::EventBus",
                   "aws:cdk:cloudformation:props": {
-                    "name": "EventBridgeLambdaStack128MyEventBus904388DB"
+                    "name": "S3LambdaStackMyEventBusB62D08A8"
                   }
                 },
                 "constructInfo": {
@@ -34,11 +34,11 @@
           },
           "MyLambdaRole": {
             "id": "MyLambdaRole",
-            "path": "EventBridgeLambdaStack128/MyLambdaRole",
+            "path": "S3LambdaStack/MyLambdaRole",
             "children": {
               "ImportMyLambdaRole": {
                 "id": "ImportMyLambdaRole",
-                "path": "EventBridgeLambdaStack128/MyLambdaRole/ImportMyLambdaRole",
+                "path": "S3LambdaStack/MyLambdaRole/ImportMyLambdaRole",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.133.0"
@@ -46,7 +46,815 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "EventBridgeLambdaStack128/MyLambdaRole/Resource",
+                "path": "S3LambdaStack/MyLambdaRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/AdministratorAccess"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.133.0"
+            }
+          },
+          "MyLambdS3": {
+            "id": "MyLambdS3",
+            "path": "S3LambdaStack/MyLambdS3",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "S3LambdaStack/MyLambdS3/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "S3LambdaStack/MyLambdS3/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "S3LambdaStack/MyLambdS3/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.133.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.133.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "S3LambdaStack/MyLambdS3/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "8cc1597eba735c97e92b7a68d54e7b41ab49df90da54744052d40b8c824ee3a0.zip"
+                    },
+                    "handler": "index.lambda_handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "MyLambdaRole6064C0FA",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.11"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.133.0"
+            }
+          },
+          "S3DeleteAuditBucketRule": {
+            "id": "S3DeleteAuditBucketRule",
+            "path": "S3LambdaStack/S3DeleteAuditBucketRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "S3LambdaStack/S3DeleteAuditBucketRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                  "aws:cdk:cloudformation:props": {
+                    "eventPattern": {
+                      "detail-type": [
+                        "AWS API Call via CloudTrail"
+                      ],
+                      "detail": {
+                        "eventSource": [
+                          "s3.amazonaws.com"
+                        ],
+                        "eventName": [
+                          "DeleteBucket"
+                        ],
+                        "requestParameters": {
+                          "bucketName": [
+                            {
+                              "prefix": "audit"
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "state": "ENABLED",
+                    "targets": [
+                      {
+                        "id": "Target0",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "MyLambdS3E83F14AB",
+                            "Arn"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "Target1",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "MyEventBus251E60F8",
+                            "Arn"
+                          ]
+                        },
+                        "roleArn": {
+                          "Fn::GetAtt": [
+                            "S3DeleteAuditBucketRuleEventsRole61D1D340",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                  "version": "2.133.0"
+                }
+              },
+              "AllowEventRuleS3LambdaStackMyLambdS3D85D5447": {
+                "id": "AllowEventRuleS3LambdaStackMyLambdS3D85D5447",
+                "path": "S3LambdaStack/S3DeleteAuditBucketRule/AllowEventRuleS3LambdaStackMyLambdS3D85D5447",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "MyLambdS3E83F14AB",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "events.amazonaws.com",
+                    "sourceArn": {
+                      "Fn::GetAtt": [
+                        "S3DeleteAuditBucketRule6BC7D914",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.133.0"
+                }
+              },
+              "EventsRole": {
+                "id": "EventsRole",
+                "path": "S3LambdaStack/S3DeleteAuditBucketRule/EventsRole",
+                "children": {
+                  "ImportEventsRole": {
+                    "id": "ImportEventsRole",
+                    "path": "S3LambdaStack/S3DeleteAuditBucketRule/EventsRole/ImportEventsRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "S3LambdaStack/S3DeleteAuditBucketRule/EventsRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "events.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "S3LambdaStack/S3DeleteAuditBucketRule/EventsRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "S3LambdaStack/S3DeleteAuditBucketRule/EventsRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "events:PutEvents",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "MyEventBus251E60F8",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "S3DeleteAuditBucketRuleEventsRoleDefaultPolicy1BE94644",
+                            "roles": [
+                              {
+                                "Ref": "S3DeleteAuditBucketRuleEventsRole61D1D340"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.133.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.133.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.Rule",
+              "version": "2.133.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "S3LambdaStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "S3LambdaStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.133.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "S3LambdaStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "S3LambdaStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.133.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "S3LambdaStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.133.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.133.0"
+        }
+      },
+      "KMSLambdaStack": {
+        "id": "KMSLambdaStack",
+        "path": "KMSLambdaStack",
+        "children": {
+          "MyEventBus": {
+            "id": "MyEventBus",
+            "path": "KMSLambdaStack/MyEventBus",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "KMSLambdaStack/MyEventBus/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::EventBus",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "KMSLambdaStackMyEventBus73E68D7D"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnEventBus",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.EventBus",
+              "version": "2.133.0"
+            }
+          },
+          "MyLambdaRole": {
+            "id": "MyLambdaRole",
+            "path": "KMSLambdaStack/MyLambdaRole",
+            "children": {
+              "ImportMyLambdaRole": {
+                "id": "ImportMyLambdaRole",
+                "path": "KMSLambdaStack/MyLambdaRole/ImportMyLambdaRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.133.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "KMSLambdaStack/MyLambdaRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/AdministratorAccess"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.133.0"
+            }
+          },
+          "MyLambdaKMS": {
+            "id": "MyLambdaKMS",
+            "path": "KMSLambdaStack/MyLambdaKMS",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "KMSLambdaStack/MyLambdaKMS/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "KMSLambdaStack/MyLambdaKMS/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "KMSLambdaStack/MyLambdaKMS/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.133.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.133.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "KMSLambdaStack/MyLambdaKMS/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "8cc1597eba735c97e92b7a68d54e7b41ab49df90da54744052d40b8c824ee3a0.zip"
+                    },
+                    "handler": "index.lambda_handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "MyLambdaRole6064C0FA",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.11"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.133.0"
+            }
+          },
+          "KMSActionsRule ": {
+            "id": "KMSActionsRule ",
+            "path": "KMSLambdaStack/KMSActionsRule ",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "KMSLambdaStack/KMSActionsRule /Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                  "aws:cdk:cloudformation:props": {
+                    "eventPattern": {
+                      "source": [
+                        "aws.kms"
+                      ],
+                      "detail-type": [
+                        "AWS API Call via CloudTrail"
+                      ],
+                      "detail": {
+                        "eventSource": [
+                          "kms.amazonaws.com"
+                        ],
+                        "eventName": [
+                          "CreateKey",
+                          "ScheduleKeyDeletion",
+                          "DisableKey",
+                          "EnableKey",
+                          "UpdateKeyDescription"
+                        ]
+                      }
+                    },
+                    "state": "ENABLED",
+                    "targets": [
+                      {
+                        "id": "Target0",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "MyLambdaKMS391953DA",
+                            "Arn"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "Target1",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "MyEventBus251E60F8",
+                            "Arn"
+                          ]
+                        },
+                        "roleArn": {
+                          "Fn::GetAtt": [
+                            "KMSActionsRuleEventsRoleEE4F5956",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                  "version": "2.133.0"
+                }
+              },
+              "AllowEventRuleKMSLambdaStackMyLambdaKMS9E41384E": {
+                "id": "AllowEventRuleKMSLambdaStackMyLambdaKMS9E41384E",
+                "path": "KMSLambdaStack/KMSActionsRule /AllowEventRuleKMSLambdaStackMyLambdaKMS9E41384E",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "MyLambdaKMS391953DA",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "events.amazonaws.com",
+                    "sourceArn": {
+                      "Fn::GetAtt": [
+                        "KMSActionsRuleDBDF9F12",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.133.0"
+                }
+              },
+              "EventsRole": {
+                "id": "EventsRole",
+                "path": "KMSLambdaStack/KMSActionsRule /EventsRole",
+                "children": {
+                  "ImportEventsRole": {
+                    "id": "ImportEventsRole",
+                    "path": "KMSLambdaStack/KMSActionsRule /EventsRole/ImportEventsRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "KMSLambdaStack/KMSActionsRule /EventsRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "events.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "KMSLambdaStack/KMSActionsRule /EventsRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "KMSLambdaStack/KMSActionsRule /EventsRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "events:PutEvents",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "MyEventBus251E60F8",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "KMSActionsRuleEventsRoleDefaultPolicy33C2EBD0",
+                            "roles": [
+                              {
+                                "Ref": "KMSActionsRuleEventsRoleEE4F5956"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.133.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.133.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.Rule",
+              "version": "2.133.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "KMSLambdaStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "KMSLambdaStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.133.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "KMSLambdaStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "KMSLambdaStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.133.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "KMSLambdaStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.133.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.133.0"
+        }
+      },
+      "IAMLambdaStack": {
+        "id": "IAMLambdaStack",
+        "path": "IAMLambdaStack",
+        "children": {
+          "MyEventBus": {
+            "id": "MyEventBus",
+            "path": "IAMLambdaStack/MyEventBus",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "IAMLambdaStack/MyEventBus/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::EventBus",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "IAMLambdaStackMyEventBus873D1777"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnEventBus",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.EventBus",
+              "version": "2.133.0"
+            }
+          },
+          "MyLambdaRole": {
+            "id": "MyLambdaRole",
+            "path": "IAMLambdaStack/MyLambdaRole",
+            "children": {
+              "ImportMyLambdaRole": {
+                "id": "ImportMyLambdaRole",
+                "path": "IAMLambdaStack/MyLambdaRole/ImportMyLambdaRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.133.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "IAMLambdaStack/MyLambdaRole/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                   "aws:cdk:cloudformation:props": {
@@ -115,11 +923,11 @@
           },
           "EmailIdentity": {
             "id": "EmailIdentity",
-            "path": "EventBridgeLambdaStack128/EmailIdentity",
+            "path": "IAMLambdaStack/EmailIdentity",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "EventBridgeLambdaStack128/EmailIdentity/Resource",
+                "path": "IAMLambdaStack/EmailIdentity/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::SES::EmailIdentity",
                   "aws:cdk:cloudformation:props": {
@@ -139,17 +947,17 @@
               "version": "2.133.0"
             }
           },
-          "MyLambda": {
-            "id": "MyLambda",
-            "path": "EventBridgeLambdaStack128/MyLambda",
+          "MyIAMLambad": {
+            "id": "MyIAMLambad",
+            "path": "IAMLambdaStack/MyIAMLambad",
             "children": {
               "Code": {
                 "id": "Code",
-                "path": "EventBridgeLambdaStack128/MyLambda/Code",
+                "path": "IAMLambdaStack/MyIAMLambad/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "EventBridgeLambdaStack128/MyLambda/Code/Stage",
+                    "path": "IAMLambdaStack/MyIAMLambad/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.133.0"
@@ -157,7 +965,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "EventBridgeLambdaStack128/MyLambda/Code/AssetBucket",
+                    "path": "IAMLambdaStack/MyIAMLambad/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.133.0"
@@ -171,7 +979,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "EventBridgeLambdaStack128/MyLambda/Resource",
+                "path": "IAMLambdaStack/MyIAMLambad/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -202,193 +1010,13 @@
               "version": "2.133.0"
             }
           },
-          "MyRule": {
-            "id": "MyRule",
-            "path": "EventBridgeLambdaStack128/MyRule",
+          "IAMActionsRule": {
+            "id": "IAMActionsRule",
+            "path": "IAMLambdaStack/IAMActionsRule",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "EventBridgeLambdaStack128/MyRule/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
-                  "aws:cdk:cloudformation:props": {
-                    "eventPattern": {
-                      "source": [
-                        "aws.secretsmanager"
-                      ],
-                      "detail-type": [
-                        "AWS Service Event Via CloudTrail"
-                      ],
-                      "detail": {
-                        "eventSource": [
-                          "secretsmanager.amazonaws.com"
-                        ],
-                        "eventName": [
-                          "DeleteSecret"
-                        ]
-                      }
-                    },
-                    "state": "ENABLED",
-                    "targets": [
-                      {
-                        "id": "Target0",
-                        "arn": {
-                          "Fn::GetAtt": [
-                            "MyLambdaCCE802FB",
-                            "Arn"
-                          ]
-                        }
-                      },
-                      {
-                        "id": "Target1",
-                        "arn": {
-                          "Fn::GetAtt": [
-                            "MyEventBus251E60F8",
-                            "Arn"
-                          ]
-                        },
-                        "roleArn": {
-                          "Fn::GetAtt": [
-                            "MyRuleEventsRoleF186CAE5",
-                            "Arn"
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
-                  "version": "2.133.0"
-                }
-              },
-              "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": {
-                "id": "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
-                "path": "EventBridgeLambdaStack128/MyRule/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
-                  "aws:cdk:cloudformation:props": {
-                    "action": "lambda:InvokeFunction",
-                    "functionName": {
-                      "Fn::GetAtt": [
-                        "MyLambdaCCE802FB",
-                        "Arn"
-                      ]
-                    },
-                    "principal": "events.amazonaws.com",
-                    "sourceArn": {
-                      "Fn::GetAtt": [
-                        "MyRuleA44AB831",
-                        "Arn"
-                      ]
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                  "version": "2.133.0"
-                }
-              },
-              "EventsRole": {
-                "id": "EventsRole",
-                "path": "EventBridgeLambdaStack128/MyRule/EventsRole",
-                "children": {
-                  "ImportEventsRole": {
-                    "id": "ImportEventsRole",
-                    "path": "EventBridgeLambdaStack128/MyRule/EventsRole/ImportEventsRole",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.133.0"
-                    }
-                  },
-                  "Resource": {
-                    "id": "Resource",
-                    "path": "EventBridgeLambdaStack128/MyRule/EventsRole/Resource",
-                    "attributes": {
-                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
-                      "aws:cdk:cloudformation:props": {
-                        "assumeRolePolicyDocument": {
-                          "Statement": [
-                            {
-                              "Action": "sts:AssumeRole",
-                              "Effect": "Allow",
-                              "Principal": {
-                                "Service": "events.amazonaws.com"
-                              }
-                            }
-                          ],
-                          "Version": "2012-10-17"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.133.0"
-                    }
-                  },
-                  "DefaultPolicy": {
-                    "id": "DefaultPolicy",
-                    "path": "EventBridgeLambdaStack128/MyRule/EventsRole/DefaultPolicy",
-                    "children": {
-                      "Resource": {
-                        "id": "Resource",
-                        "path": "EventBridgeLambdaStack128/MyRule/EventsRole/DefaultPolicy/Resource",
-                        "attributes": {
-                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
-                          "aws:cdk:cloudformation:props": {
-                            "policyDocument": {
-                              "Statement": [
-                                {
-                                  "Action": "events:PutEvents",
-                                  "Effect": "Allow",
-                                  "Resource": {
-                                    "Fn::GetAtt": [
-                                      "MyEventBus251E60F8",
-                                      "Arn"
-                                    ]
-                                  }
-                                }
-                              ],
-                              "Version": "2012-10-17"
-                            },
-                            "policyName": "MyRuleEventsRoleDefaultPolicy5D01F508",
-                            "roles": [
-                              {
-                                "Ref": "MyRuleEventsRoleF186CAE5"
-                              }
-                            ]
-                          }
-                        },
-                        "constructInfo": {
-                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.133.0"
-                        }
-                      }
-                    },
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.aws_iam.Policy",
-                      "version": "2.133.0"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.133.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_events.Rule",
-              "version": "2.133.0"
-            }
-          },
-          "Rule2": {
-            "id": "Rule2",
-            "path": "EventBridgeLambdaStack128/Rule2",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "EventBridgeLambdaStack128/Rule2/Resource",
+                "path": "IAMLambdaStack/IAMActionsRule/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Events::Rule",
                   "aws:cdk:cloudformation:props": {
@@ -418,7 +1046,22 @@
                         "id": "Target0",
                         "arn": {
                           "Fn::GetAtt": [
-                            "MyLambdaCCE802FB",
+                            "MyIAMLambad91FF1665",
+                            "Arn"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "Target1",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "MyEventBus251E60F8",
+                            "Arn"
+                          ]
+                        },
+                        "roleArn": {
+                          "Fn::GetAtt": [
+                            "IAMActionsRuleEventsRole3EBC77E3",
                             "Arn"
                           ]
                         }
@@ -431,23 +1074,23 @@
                   "version": "2.133.0"
                 }
               },
-              "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": {
-                "id": "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
-                "path": "EventBridgeLambdaStack128/Rule2/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
+              "AllowEventRuleIAMLambdaStackMyIAMLambadFF80BF24": {
+                "id": "AllowEventRuleIAMLambdaStackMyIAMLambadFF80BF24",
+                "path": "IAMLambdaStack/IAMActionsRule/AllowEventRuleIAMLambdaStackMyIAMLambadFF80BF24",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                   "aws:cdk:cloudformation:props": {
                     "action": "lambda:InvokeFunction",
                     "functionName": {
                       "Fn::GetAtt": [
-                        "MyLambdaCCE802FB",
+                        "MyIAMLambad91FF1665",
                         "Arn"
                       ]
                     },
                     "principal": "events.amazonaws.com",
                     "sourceArn": {
                       "Fn::GetAtt": [
-                        "Rule270732244",
+                        "IAMActionsRule8DE43EF3",
                         "Arn"
                       ]
                     }
@@ -457,6 +1100,93 @@
                   "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
                   "version": "2.133.0"
                 }
+              },
+              "EventsRole": {
+                "id": "EventsRole",
+                "path": "IAMLambdaStack/IAMActionsRule/EventsRole",
+                "children": {
+                  "ImportEventsRole": {
+                    "id": "ImportEventsRole",
+                    "path": "IAMLambdaStack/IAMActionsRule/EventsRole/ImportEventsRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "IAMLambdaStack/IAMActionsRule/EventsRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "events.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "IAMLambdaStack/IAMActionsRule/EventsRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "IAMLambdaStack/IAMActionsRule/EventsRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "events:PutEvents",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "MyEventBus251E60F8",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "IAMActionsRuleEventsRoleDefaultPolicyAC09CEFB",
+                            "roles": [
+                              {
+                                "Ref": "IAMActionsRuleEventsRole3EBC77E3"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.133.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.133.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.133.0"
+                }
               }
             },
             "constructInfo": {
@@ -464,13 +1194,633 @@
               "version": "2.133.0"
             }
           },
-          "Rule3": {
-            "id": "Rule3",
-            "path": "EventBridgeLambdaStack128/Rule3",
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "IAMLambdaStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "IAMLambdaStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.133.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "IAMLambdaStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "IAMLambdaStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.133.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "IAMLambdaStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.133.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.133.0"
+        }
+      },
+      "SecreatLambdaStack": {
+        "id": "SecreatLambdaStack",
+        "path": "SecreatLambdaStack",
+        "children": {
+          "MyEventBus": {
+            "id": "MyEventBus",
+            "path": "SecreatLambdaStack/MyEventBus",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "EventBridgeLambdaStack128/Rule3/Resource",
+                "path": "SecreatLambdaStack/MyEventBus/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::EventBus",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "SecreatLambdaStackMyEventBusF59AF08B"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnEventBus",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.EventBus",
+              "version": "2.133.0"
+            }
+          },
+          "MyLambdaRole": {
+            "id": "MyLambdaRole",
+            "path": "SecreatLambdaStack/MyLambdaRole",
+            "children": {
+              "ImportMyLambdaRole": {
+                "id": "ImportMyLambdaRole",
+                "path": "SecreatLambdaStack/MyLambdaRole/ImportMyLambdaRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.133.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SecreatLambdaStack/MyLambdaRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/AdministratorAccess"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.133.0"
+            }
+          },
+          "MyLambdaSecreat": {
+            "id": "MyLambdaSecreat",
+            "path": "SecreatLambdaStack/MyLambdaSecreat",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "SecreatLambdaStack/MyLambdaSecreat/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "SecreatLambdaStack/MyLambdaSecreat/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "SecreatLambdaStack/MyLambdaSecreat/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.133.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.133.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "SecreatLambdaStack/MyLambdaSecreat/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "8cc1597eba735c97e92b7a68d54e7b41ab49df90da54744052d40b8c824ee3a0.zip"
+                    },
+                    "handler": "index.lambda_handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "MyLambdaRole6064C0FA",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.11"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.133.0"
+            }
+          },
+          "SecretManagerDeleteRule": {
+            "id": "SecretManagerDeleteRule",
+            "path": "SecreatLambdaStack/SecretManagerDeleteRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "SecreatLambdaStack/SecretManagerDeleteRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                  "aws:cdk:cloudformation:props": {
+                    "eventPattern": {
+                      "source": [
+                        "aws.secretsmanager"
+                      ],
+                      "detail-type": [
+                        "AWS Service Event Via CloudTrail"
+                      ],
+                      "detail": {
+                        "eventSource": [
+                          "secretsmanager.amazonaws.com"
+                        ],
+                        "eventName": [
+                          "DeleteSecret"
+                        ]
+                      }
+                    },
+                    "state": "ENABLED",
+                    "targets": [
+                      {
+                        "id": "Target0",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "MyLambdaSecreat57FCE317",
+                            "Arn"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "Target1",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "MyEventBus251E60F8",
+                            "Arn"
+                          ]
+                        },
+                        "roleArn": {
+                          "Fn::GetAtt": [
+                            "SecretManagerDeleteRuleEventsRoleCF9F009C",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                  "version": "2.133.0"
+                }
+              },
+              "AllowEventRuleSecreatLambdaStackMyLambdaSecreat876BDDE1": {
+                "id": "AllowEventRuleSecreatLambdaStackMyLambdaSecreat876BDDE1",
+                "path": "SecreatLambdaStack/SecretManagerDeleteRule/AllowEventRuleSecreatLambdaStackMyLambdaSecreat876BDDE1",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "MyLambdaSecreat57FCE317",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "events.amazonaws.com",
+                    "sourceArn": {
+                      "Fn::GetAtt": [
+                        "SecretManagerDeleteRule72A4FCF2",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.133.0"
+                }
+              },
+              "EventsRole": {
+                "id": "EventsRole",
+                "path": "SecreatLambdaStack/SecretManagerDeleteRule/EventsRole",
+                "children": {
+                  "ImportEventsRole": {
+                    "id": "ImportEventsRole",
+                    "path": "SecreatLambdaStack/SecretManagerDeleteRule/EventsRole/ImportEventsRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "SecreatLambdaStack/SecretManagerDeleteRule/EventsRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "events.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "SecreatLambdaStack/SecretManagerDeleteRule/EventsRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "SecreatLambdaStack/SecretManagerDeleteRule/EventsRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "events:PutEvents",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "MyEventBus251E60F8",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "SecretManagerDeleteRuleEventsRoleDefaultPolicy54A6902D",
+                            "roles": [
+                              {
+                                "Ref": "SecretManagerDeleteRuleEventsRoleCF9F009C"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.133.0"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.133.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.Rule",
+              "version": "2.133.0"
+            }
+          },
+          "CDKMetadata": {
+            "id": "CDKMetadata",
+            "path": "SecreatLambdaStack/CDKMetadata",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "SecreatLambdaStack/CDKMetadata/Default",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.133.0"
+                }
+              },
+              "Condition": {
+                "id": "Condition",
+                "path": "SecreatLambdaStack/CDKMetadata/Condition",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "SecreatLambdaStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.133.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "SecreatLambdaStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.133.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.133.0"
+        }
+      },
+      "RDSLambdaStack": {
+        "id": "RDSLambdaStack",
+        "path": "RDSLambdaStack",
+        "children": {
+          "MyEventBus": {
+            "id": "MyEventBus",
+            "path": "RDSLambdaStack/MyEventBus",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "RDSLambdaStack/MyEventBus/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::EventBus",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "RDSLambdaStackMyEventBus796B287B"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnEventBus",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.EventBus",
+              "version": "2.133.0"
+            }
+          },
+          "MyLambdaRole": {
+            "id": "MyLambdaRole",
+            "path": "RDSLambdaStack/MyLambdaRole",
+            "children": {
+              "ImportMyLambdaRole": {
+                "id": "ImportMyLambdaRole",
+                "path": "RDSLambdaStack/MyLambdaRole/ImportMyLambdaRole",
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Resource",
+                  "version": "2.133.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "RDSLambdaStack/MyLambdaRole/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                  "aws:cdk:cloudformation:props": {
+                    "assumeRolePolicyDocument": {
+                      "Statement": [
+                        {
+                          "Action": "sts:AssumeRole",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "Service": "lambda.amazonaws.com"
+                          }
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    },
+                    "managedPolicyArns": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/AdministratorAccess"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_iam.Role",
+              "version": "2.133.0"
+            }
+          },
+          "MyLambdaRDS": {
+            "id": "MyLambdaRDS",
+            "path": "RDSLambdaStack/MyLambdaRDS",
+            "children": {
+              "Code": {
+                "id": "Code",
+                "path": "RDSLambdaStack/MyLambdaRDS/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "RDSLambdaStack/MyLambdaRDS/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "RDSLambdaStack/MyLambdaRDS/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.133.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.133.0"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "RDSLambdaStack/MyLambdaRDS/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": {
+                        "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+                      },
+                      "s3Key": "8cc1597eba735c97e92b7a68d54e7b41ab49df90da54744052d40b8c824ee3a0.zip"
+                    },
+                    "handler": "index.lambda_handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "MyLambdaRole6064C0FA",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "python3.11"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.133.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda.Function",
+              "version": "2.133.0"
+            }
+          },
+          "RDSActionsRule": {
+            "id": "RDSActionsRule",
+            "path": "RDSLambdaStack/RDSActionsRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "RDSLambdaStack/RDSActionsRule/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Events::Rule",
                   "aws:cdk:cloudformation:props": {
@@ -494,7 +1844,22 @@
                         "id": "Target0",
                         "arn": {
                           "Fn::GetAtt": [
-                            "MyLambdaCCE802FB",
+                            "MyLambdaRDS3A8597CE",
+                            "Arn"
+                          ]
+                        }
+                      },
+                      {
+                        "id": "Target1",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "MyEventBus251E60F8",
+                            "Arn"
+                          ]
+                        },
+                        "roleArn": {
+                          "Fn::GetAtt": [
+                            "RDSActionsRuleEventsRoleDA6F55DB",
                             "Arn"
                           ]
                         }
@@ -507,23 +1872,23 @@
                   "version": "2.133.0"
                 }
               },
-              "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": {
-                "id": "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
-                "path": "EventBridgeLambdaStack128/Rule3/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
+              "AllowEventRuleRDSLambdaStackMyLambdaRDSB3E0C42E": {
+                "id": "AllowEventRuleRDSLambdaStackMyLambdaRDSB3E0C42E",
+                "path": "RDSLambdaStack/RDSActionsRule/AllowEventRuleRDSLambdaStackMyLambdaRDSB3E0C42E",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                   "aws:cdk:cloudformation:props": {
                     "action": "lambda:InvokeFunction",
                     "functionName": {
                       "Fn::GetAtt": [
-                        "MyLambdaCCE802FB",
+                        "MyLambdaRDS3A8597CE",
                         "Arn"
                       ]
                     },
                     "principal": "events.amazonaws.com",
                     "sourceArn": {
                       "Fn::GetAtt": [
-                        "Rule37CF0D9CF",
+                        "RDSActionsRule775C99BD",
                         "Arn"
                       ]
                     }
@@ -533,168 +1898,91 @@
                   "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
                   "version": "2.133.0"
                 }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_events.Rule",
-              "version": "2.133.0"
-            }
-          },
-          "Rule4": {
-            "id": "Rule4",
-            "path": "EventBridgeLambdaStack128/Rule4",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "EventBridgeLambdaStack128/Rule4/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
-                  "aws:cdk:cloudformation:props": {
-                    "eventPattern": {
-                      "detail-type": [
-                        "AWS API Call via CloudTrail"
-                      ],
-                      "detail": {
-                        "eventSource": [
-                          "s3.amazonaws.com"
-                        ],
-                        "eventName": [
-                          "DeleteBucket"
-                        ],
-                        "requestParameters": {
-                          "bucketName": [
+              },
+              "EventsRole": {
+                "id": "EventsRole",
+                "path": "RDSLambdaStack/RDSActionsRule/EventsRole",
+                "children": {
+                  "ImportEventsRole": {
+                    "id": "ImportEventsRole",
+                    "path": "RDSLambdaStack/RDSActionsRule/EventsRole/ImportEventsRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "RDSLambdaStack/RDSActionsRule/EventsRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
                             {
-                              "prefix": "audit"
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "events.amazonaws.com"
+                              }
                             }
-                          ]
+                          ],
+                          "Version": "2012-10-17"
                         }
                       }
                     },
-                    "state": "ENABLED",
-                    "targets": [
-                      {
-                        "id": "Target0",
-                        "arn": {
-                          "Fn::GetAtt": [
-                            "MyLambdaCCE802FB",
-                            "Arn"
-                          ]
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.133.0"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "RDSLambdaStack/RDSActionsRule/EventsRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "RDSLambdaStack/RDSActionsRule/EventsRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "events:PutEvents",
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "MyEventBus251E60F8",
+                                      "Arn"
+                                    ]
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "RDSActionsRuleEventsRoleDefaultPolicy5685FD07",
+                            "roles": [
+                              {
+                                "Ref": "RDSActionsRuleEventsRoleDA6F55DB"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.133.0"
                         }
                       }
-                    ]
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
-                  "version": "2.133.0"
-                }
-              },
-              "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": {
-                "id": "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
-                "path": "EventBridgeLambdaStack128/Rule4/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
-                  "aws:cdk:cloudformation:props": {
-                    "action": "lambda:InvokeFunction",
-                    "functionName": {
-                      "Fn::GetAtt": [
-                        "MyLambdaCCE802FB",
-                        "Arn"
-                      ]
                     },
-                    "principal": "events.amazonaws.com",
-                    "sourceArn": {
-                      "Fn::GetAtt": [
-                        "Rule448524F36",
-                        "Arn"
-                      ]
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.133.0"
                     }
                   }
                 },
                 "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
-                  "version": "2.133.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_events.Rule",
-              "version": "2.133.0"
-            }
-          },
-          "Rule5": {
-            "id": "Rule5",
-            "path": "EventBridgeLambdaStack128/Rule5",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "EventBridgeLambdaStack128/Rule5/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
-                  "aws:cdk:cloudformation:props": {
-                    "eventPattern": {
-                      "source": [
-                        "aws.kms"
-                      ],
-                      "detail-type": [
-                        "AWS API Call via CloudTrail"
-                      ],
-                      "detail": {
-                        "eventSource": [
-                          "kms.amazonaws.com"
-                        ],
-                        "eventName": [
-                          "CreateKey",
-                          "ScheduleKeyDeletion",
-                          "DisableKey",
-                          "EnableKey",
-                          "UpdateKeyDescription"
-                        ]
-                      }
-                    },
-                    "state": "ENABLED",
-                    "targets": [
-                      {
-                        "id": "Target0",
-                        "arn": {
-                          "Fn::GetAtt": [
-                            "MyLambdaCCE802FB",
-                            "Arn"
-                          ]
-                        }
-                      }
-                    ]
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
-                  "version": "2.133.0"
-                }
-              },
-              "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": {
-                "id": "AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
-                "path": "EventBridgeLambdaStack128/Rule5/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
-                  "aws:cdk:cloudformation:props": {
-                    "action": "lambda:InvokeFunction",
-                    "functionName": {
-                      "Fn::GetAtt": [
-                        "MyLambdaCCE802FB",
-                        "Arn"
-                      ]
-                    },
-                    "principal": "events.amazonaws.com",
-                    "sourceArn": {
-                      "Fn::GetAtt": [
-                        "Rule560B83267",
-                        "Arn"
-                      ]
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
                   "version": "2.133.0"
                 }
               }
@@ -706,11 +1994,11 @@
           },
           "CDKMetadata": {
             "id": "CDKMetadata",
-            "path": "EventBridgeLambdaStack128/CDKMetadata",
+            "path": "RDSLambdaStack/CDKMetadata",
             "children": {
               "Default": {
                 "id": "Default",
-                "path": "EventBridgeLambdaStack128/CDKMetadata/Default",
+                "path": "RDSLambdaStack/CDKMetadata/Default",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.133.0"
@@ -718,7 +2006,7 @@
               },
               "Condition": {
                 "id": "Condition",
-                "path": "EventBridgeLambdaStack128/CDKMetadata/Condition",
+                "path": "RDSLambdaStack/CDKMetadata/Condition",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnCondition",
                   "version": "2.133.0"
@@ -732,7 +2020,7 @@
           },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
-            "path": "EventBridgeLambdaStack128/BootstrapVersion",
+            "path": "RDSLambdaStack/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
               "version": "2.133.0"
@@ -740,7 +2028,7 @@
           },
           "CheckBootstrapVersion": {
             "id": "CheckBootstrapVersion",
-            "path": "EventBridgeLambdaStack128/CheckBootstrapVersion",
+            "path": "RDSLambdaStack/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
               "version": "2.133.0"

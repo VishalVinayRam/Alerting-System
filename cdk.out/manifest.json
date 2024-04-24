@@ -1,28 +1,28 @@
 {
   "version": "36.0.0",
   "artifacts": {
-    "EventBridgeLambdaStack128.assets": {
+    "S3LambdaStack.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
-        "file": "EventBridgeLambdaStack128.assets.json",
+        "file": "S3LambdaStack.assets.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
-    "EventBridgeLambdaStack128": {
+    "S3LambdaStack": {
       "type": "aws:cloudformation:stack",
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
-        "templateFile": "EventBridgeLambdaStack128.template.json",
+        "templateFile": "S3LambdaStack.template.json",
         "terminationProtection": false,
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c53ae798047f0554002d9757213a5e6cce59a159b9f2c6583b86ac557af191b8.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/cfe622614ca57e2acf679db6954c478db91409d2fcee1a1687531a8048bf14af.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
-          "EventBridgeLambdaStack128.assets"
+          "S3LambdaStack.assets"
         ],
         "lookupRole": {
           "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
@@ -31,131 +31,491 @@
         }
       },
       "dependencies": [
-        "EventBridgeLambdaStack128.assets"
+        "S3LambdaStack.assets"
       ],
       "metadata": {
-        "/EventBridgeLambdaStack128/MyEventBus/Resource": [
+        "/S3LambdaStack/MyEventBus/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "MyEventBus251E60F8"
           }
         ],
-        "/EventBridgeLambdaStack128/MyLambdaRole/Resource": [
+        "/S3LambdaStack/MyLambdaRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "MyLambdaRole6064C0FA"
           }
         ],
-        "/EventBridgeLambdaStack128/EmailIdentity/Resource": [
+        "/S3LambdaStack/MyLambdS3/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "EmailIdentity7187767D"
+            "data": "MyLambdS3E83F14AB"
           }
         ],
-        "/EventBridgeLambdaStack128/MyLambda/Resource": [
+        "/S3LambdaStack/S3DeleteAuditBucketRule/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyLambdaCCE802FB"
+            "data": "S3DeleteAuditBucketRule6BC7D914"
           }
         ],
-        "/EventBridgeLambdaStack128/MyRule/Resource": [
+        "/S3LambdaStack/S3DeleteAuditBucketRule/AllowEventRuleS3LambdaStackMyLambdS3D85D5447": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyRuleA44AB831"
+            "data": "S3DeleteAuditBucketRuleAllowEventRuleS3LambdaStackMyLambdS3D85D5447B5A56238"
           }
         ],
-        "/EventBridgeLambdaStack128/MyRule/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": [
+        "/S3LambdaStack/S3DeleteAuditBucketRule/EventsRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyRuleAllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191D14C7E63"
+            "data": "S3DeleteAuditBucketRuleEventsRole61D1D340"
           }
         ],
-        "/EventBridgeLambdaStack128/MyRule/EventsRole/Resource": [
+        "/S3LambdaStack/S3DeleteAuditBucketRule/EventsRole/DefaultPolicy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyRuleEventsRoleF186CAE5"
+            "data": "S3DeleteAuditBucketRuleEventsRoleDefaultPolicy1BE94644"
           }
         ],
-        "/EventBridgeLambdaStack128/MyRule/EventsRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "MyRuleEventsRoleDefaultPolicy5D01F508"
-          }
-        ],
-        "/EventBridgeLambdaStack128/Rule2/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Rule270732244"
-          }
-        ],
-        "/EventBridgeLambdaStack128/Rule2/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Rule2AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D419167F453C7"
-          }
-        ],
-        "/EventBridgeLambdaStack128/Rule3/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Rule37CF0D9CF"
-          }
-        ],
-        "/EventBridgeLambdaStack128/Rule3/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Rule3AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D419165489686"
-          }
-        ],
-        "/EventBridgeLambdaStack128/Rule4/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Rule448524F36"
-          }
-        ],
-        "/EventBridgeLambdaStack128/Rule4/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Rule4AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D419102E5FB41"
-          }
-        ],
-        "/EventBridgeLambdaStack128/Rule5/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Rule560B83267"
-          }
-        ],
-        "/EventBridgeLambdaStack128/Rule5/AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "Rule5AllowEventRuleEventBridgeLambdaStack128MyLambdaFC1D4191411C7EE7"
-          }
-        ],
-        "/EventBridgeLambdaStack128/CDKMetadata/Default": [
+        "/S3LambdaStack/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadata"
           }
         ],
-        "/EventBridgeLambdaStack128/CDKMetadata/Condition": [
+        "/S3LambdaStack/CDKMetadata/Condition": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CDKMetadataAvailable"
           }
         ],
-        "/EventBridgeLambdaStack128/BootstrapVersion": [
+        "/S3LambdaStack/BootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "BootstrapVersion"
           }
         ],
-        "/EventBridgeLambdaStack128/CheckBootstrapVersion": [
+        "/S3LambdaStack/CheckBootstrapVersion": [
           {
             "type": "aws:cdk:logicalId",
             "data": "CheckBootstrapVersion"
           }
         ]
       },
-      "displayName": "EventBridgeLambdaStack128"
+      "displayName": "S3LambdaStack"
+    },
+    "KMSLambdaStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "KMSLambdaStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "KMSLambdaStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "KMSLambdaStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6efd4bf400dcb39d974ae522e2e93e89edf95fc9d55d5a18f0a0cf5d7773b6c8.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "KMSLambdaStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "KMSLambdaStack.assets"
+      ],
+      "metadata": {
+        "/KMSLambdaStack/MyEventBus/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyEventBus251E60F8"
+          }
+        ],
+        "/KMSLambdaStack/MyLambdaRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyLambdaRole6064C0FA"
+          }
+        ],
+        "/KMSLambdaStack/MyLambdaKMS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyLambdaKMS391953DA"
+          }
+        ],
+        "/KMSLambdaStack/KMSActionsRule /Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "KMSActionsRuleDBDF9F12"
+          }
+        ],
+        "/KMSLambdaStack/KMSActionsRule /AllowEventRuleKMSLambdaStackMyLambdaKMS9E41384E": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "KMSActionsRuleAllowEventRuleKMSLambdaStackMyLambdaKMS9E41384E234FD77C"
+          }
+        ],
+        "/KMSLambdaStack/KMSActionsRule /EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "KMSActionsRuleEventsRoleEE4F5956"
+          }
+        ],
+        "/KMSLambdaStack/KMSActionsRule /EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "KMSActionsRuleEventsRoleDefaultPolicy33C2EBD0"
+          }
+        ],
+        "/KMSLambdaStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/KMSLambdaStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/KMSLambdaStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/KMSLambdaStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "KMSLambdaStack"
+    },
+    "IAMLambdaStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "IAMLambdaStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "IAMLambdaStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "IAMLambdaStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/070ada23c756dbc5a42f61ede0fde6cfa0601779596960ae7bb9bedcfe3932bf.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "IAMLambdaStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "IAMLambdaStack.assets"
+      ],
+      "metadata": {
+        "/IAMLambdaStack/MyEventBus/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyEventBus251E60F8"
+          }
+        ],
+        "/IAMLambdaStack/MyLambdaRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyLambdaRole6064C0FA"
+          }
+        ],
+        "/IAMLambdaStack/EmailIdentity/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EmailIdentity7187767D"
+          }
+        ],
+        "/IAMLambdaStack/MyIAMLambad/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyIAMLambad91FF1665"
+          }
+        ],
+        "/IAMLambdaStack/IAMActionsRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IAMActionsRule8DE43EF3"
+          }
+        ],
+        "/IAMLambdaStack/IAMActionsRule/AllowEventRuleIAMLambdaStackMyIAMLambadFF80BF24": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IAMActionsRuleAllowEventRuleIAMLambdaStackMyIAMLambadFF80BF24DB2712E1"
+          }
+        ],
+        "/IAMLambdaStack/IAMActionsRule/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IAMActionsRuleEventsRole3EBC77E3"
+          }
+        ],
+        "/IAMLambdaStack/IAMActionsRule/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "IAMActionsRuleEventsRoleDefaultPolicyAC09CEFB"
+          }
+        ],
+        "/IAMLambdaStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/IAMLambdaStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/IAMLambdaStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/IAMLambdaStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "IAMLambdaStack"
+    },
+    "SecreatLambdaStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "SecreatLambdaStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "SecreatLambdaStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "SecreatLambdaStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8bf83abd1dce9d65ee8636fc8a4ef92d8a88fd69c25c725b585fdb2757f8a871.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "SecreatLambdaStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "SecreatLambdaStack.assets"
+      ],
+      "metadata": {
+        "/SecreatLambdaStack/MyEventBus/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyEventBus251E60F8"
+          }
+        ],
+        "/SecreatLambdaStack/MyLambdaRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyLambdaRole6064C0FA"
+          }
+        ],
+        "/SecreatLambdaStack/MyLambdaSecreat/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyLambdaSecreat57FCE317"
+          }
+        ],
+        "/SecreatLambdaStack/SecretManagerDeleteRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SecretManagerDeleteRule72A4FCF2"
+          }
+        ],
+        "/SecreatLambdaStack/SecretManagerDeleteRule/AllowEventRuleSecreatLambdaStackMyLambdaSecreat876BDDE1": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SecretManagerDeleteRuleAllowEventRuleSecreatLambdaStackMyLambdaSecreat876BDDE1687F54F9"
+          }
+        ],
+        "/SecreatLambdaStack/SecretManagerDeleteRule/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SecretManagerDeleteRuleEventsRoleCF9F009C"
+          }
+        ],
+        "/SecreatLambdaStack/SecretManagerDeleteRule/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SecretManagerDeleteRuleEventsRoleDefaultPolicy54A6902D"
+          }
+        ],
+        "/SecreatLambdaStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/SecreatLambdaStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/SecreatLambdaStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/SecreatLambdaStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "SecreatLambdaStack"
+    },
+    "RDSLambdaStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "RDSLambdaStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "RDSLambdaStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "RDSLambdaStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c8d604f5a132021b2fae97667da30cc4a985193d6cce62eb5718ae4124902d9e.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "RDSLambdaStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "RDSLambdaStack.assets"
+      ],
+      "metadata": {
+        "/RDSLambdaStack/MyEventBus/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyEventBus251E60F8"
+          }
+        ],
+        "/RDSLambdaStack/MyLambdaRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyLambdaRole6064C0FA"
+          }
+        ],
+        "/RDSLambdaStack/MyLambdaRDS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyLambdaRDS3A8597CE"
+          }
+        ],
+        "/RDSLambdaStack/RDSActionsRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RDSActionsRule775C99BD"
+          }
+        ],
+        "/RDSLambdaStack/RDSActionsRule/AllowEventRuleRDSLambdaStackMyLambdaRDSB3E0C42E": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RDSActionsRuleAllowEventRuleRDSLambdaStackMyLambdaRDSB3E0C42E29B8D111"
+          }
+        ],
+        "/RDSLambdaStack/RDSActionsRule/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RDSActionsRuleEventsRoleDA6F55DB"
+          }
+        ],
+        "/RDSLambdaStack/RDSActionsRule/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RDSActionsRuleEventsRoleDefaultPolicy5685FD07"
+          }
+        ],
+        "/RDSLambdaStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/RDSLambdaStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/RDSLambdaStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/RDSLambdaStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "RDSLambdaStack"
     },
     "Tree": {
       "type": "cdk:tree",

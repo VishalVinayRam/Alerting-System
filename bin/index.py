@@ -1,6 +1,6 @@
 import boto3
 import json
-# from datetime import datetime
+from datetime import datetime
 
 
 def lambda_handler(events,context):
@@ -21,12 +21,12 @@ def lambda_handler(events,context):
     eventSource = event['eventSource']
     eventName = event['eventName']
     sourceIPAddress = event['sourceIPAddress']
-    # datetime_obj = datetime.strptime(eventTime, '%Y-%m-%dT%H:%M:%SZ')
+    datetime_obj = datetime.strptime(eventTime, '%Y-%m-%dT%H:%M:%SZ')
 
 # Convert datetime object to the desired format 'dd-mm-yyyy hh:mm:ss'
-    # formatted_timestamp = datetime_obj.strftime('%d-%m-%Y %H:%M:%S')
+    formatted_timestamp = datetime_obj.strftime('%d-%m-%Y %H:%M:%S')
 
-    subject = f'Changes by {user}'
+    subject = f'Latest event from  {accountId}'
     table = f"""
     <table border="1" cellspacing="0" cellpadding="5">
         <tr>
@@ -35,7 +35,7 @@ def lambda_handler(events,context):
         </tr>
         <tr>
             <td>Event Time</td>
-            <td>{eventTime}</td>
+            <td>{formatted_timestamp}</td>
         </tr>
         <tr>
             <td>User</td>
@@ -71,3 +71,4 @@ def lambda_handler(events,context):
         },
         Source=sender_email
     )
+
